@@ -1,6 +1,6 @@
 # <img src='' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/> AlpacaPP Persona
  
-Give OpenVoiceOS some sass with [AlpacaCPP](https://github.com/ggerganov/llama.cpp)
+Give OpenVoiceOS some sass with [AlpacaCPP](https://github.com/antimatter15/alpaca.cpp)
 
 ## Examples 
 * "What is best in life?"
