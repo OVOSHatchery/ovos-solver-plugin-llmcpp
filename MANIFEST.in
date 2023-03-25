@@ -1,0 +1,3 @@
+recursive-include LICENSE
+recursive-include README.md
+recursive-include requirements.txt
