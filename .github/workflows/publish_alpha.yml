@@ -6,7 +6,7 @@ on:
     branches:
       - dev
     paths-ignore:
-      - 'ovos_solver_dialogpt/version.py'
+      - 'ovos_solver_alpacacpp/version.py'
       - 'test/**'
       - 'examples/**'
       - '.github/**'

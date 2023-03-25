@@ -4,7 +4,7 @@ on:
     branches:
       - dev
     paths-ignore:
-      - 'ovos_solver_dialogpt/version.py'
+      - 'ovos_solver_alpacacpp/version.py'
       - 'requirements/**'
       - 'examples/**'
       - '.github/**'
@@ -18,7 +18,7 @@ on:
     branches:
       - master
     paths-ignore:
-      - 'ovos_solver_dialogpt/version.py'
+      - 'ovos_solver_alpacacpp/version.py'
       - 'requirements/**'
       - 'examples/**'
       - '.github/**'
@@ -56,7 +56,7 @@ jobs:
           pip install pytest pytest-timeout pytest-cov
       - name: Run unittests
         run: |
-          pytest --cov=ovos_solver_dialogpt --cov-report xml test/unittests
+          pytest --cov=ovos_solver_alpacacpp --cov-report xml test/unittests
           # NOTE: additional pytest invocations should also add the --cov-append flag
           #       or they will overwrite previous invocations' coverage reports
           #       (for an example, see OVOS Skill Manager's workflow)
