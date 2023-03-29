@@ -24,7 +24,7 @@ with open("README.md", "r") as f:
 def get_version():
     """ Find the version of the package"""
     version = None
-    version_file = os.path.join(BASEDIR, 'ovos_solver_alpacacpp', 'version.py')
+    version_file = os.path.join(BASEDIR, 'ovos_solver_llmcpp', 'version.py')
     major, minor, build, alpha = (None, None, None, None)
     with open(version_file) as f:
         for line in f:
@@ -46,17 +46,17 @@ def get_version():
     return version
 
 
-PLUGIN_ENTRY_POINT = 'ovos-solver-alpacacpp-plugin=ovos_solver_alpacacpp:AlpacaCPPSolver'
+PLUGIN_ENTRY_POINT = 'ovos-solver-llmcpp-plugin=ovos_solver_llmcpp:LLMcppSolver'
 
 setup(
-    name='ovos-solver-alpacacpp-plugin',
+    name='ovos-solver-llmcpp-plugin',
     version=get_version(),
     description='A question solver plugin for ovos',
-    url='https://github.com/OpenVoiceOS/ovos-solver-plugin-alpacacpp',
+    url='https://github.com/OpenVoiceOS/ovos-solver-plugin-llmcpp',
     author='jarbasai',
     author_email='jarbasai@mailfence.com',
     license='MIT',
-    packages=['ovos_solver_alpacacpp'],
+    packages=['ovos_solver_llmcpp'],
     zip_safe=True,
     keywords='ovos plugin utterance fallback query',
     entry_points={'neon.plugin.solver': PLUGIN_ENTRY_POINT},
