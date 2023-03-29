@@ -1,11 +1,11 @@
 import subprocess
-import sys
 from enum import Enum
-
+from ovos_utils.log import LOG
 
 # from https://github.com/timweri/alpaca.cpp-bot/blob/master/alpaca_cpp_interface/interface.py
 # MIT licensed
 class LLMcppInterface:
+
     class State(Enum):
         ACTIVE = 0
         TERMINATED = 1
@@ -22,11 +22,46 @@ class LLMcppInterface:
         #   -c N, --ctx_size N    size of the prompt context (default: 2048)
         #   --temp N              temperature (default: 0.1)
         #   -b N, --batch_size N  batch size for prompt processing (default: 8)
-
+        self.state = LLMcppInterface.State.TERMINATED
         self.alpaca_exec_path = alpaca_exec_path
         self.model_path = model_path
-
+        self.backend = self.get_backend_from_binary()
+        if self.backend == "llama.cpp":
+            raise ValueError("llama.cpp is unsupported, use ovos-solver-plugin-llamacpp instead")
+        if self.backend not in ["alpaca.cpp", "gpt4all.cpp"]:
+            LOG.warning("unrecognized binary, may be unsupported or hang forever")
+        LOG.info(f"LLM engine: {self.backend}")
         self.start()
+
+    def get_help_text(self):
+        p = subprocess.Popen(
+            [self.alpaca_exec_path, '--help'],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        helptext = b""
+        while True:
+            l = p.stderr.readline()
+            helptext += l
+            if not l:
+                break
+        return helptext.decode("utf-8")
+
+    def get_backend_from_binary(self):
+        help = self.get_help_text()
+
+        gpt4all_txt = "model path (default: gpt4all-lora-quantized.bin)"
+        llama_txt = "model path (default: models/llama-7B/ggml-model.bin)"
+        alpaca_txt = "model path (default: ggml-alpaca-7b-q4.bin)"
+
+        if llama_txt in help:
+            return "llama.cpp"
+        if gpt4all_txt in help:
+            return "gpt4all.cpp"
+        if alpaca_txt in help:
+            return "alpaca.cpp"
+        return "unknown"
 
     def restart(self):
         self.terminate()
@@ -37,7 +72,7 @@ class LLMcppInterface:
             [self.alpaca_exec_path, '-m', self.model_path],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=sys.stderr
+            stderr=subprocess.PIPE
         )
         # Signal whether the alpaca.cpp process is active
         self.state = LLMcppInterface.State.ACTIVE
@@ -74,7 +109,6 @@ class LLMcppInterface:
         # user input
         if self.state != LLMcppInterface.State.ACTIVE or self.ready_for_prompt:
             return
-
         output = ''
 
         # Used to detect user input prompt
@@ -120,7 +154,6 @@ class LLMcppInterface:
             return False
 
         prompt = prompt.strip()
-        # print(f"Wrote \"{prompt}\" to chat")
         self.cli_process.stdin.write((prompt + "\n").encode('utf-8'))
         self.cli_process.stdin.flush()
 
