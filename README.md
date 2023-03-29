@@ -1,6 +1,6 @@
 # <img src='https://camo.githubusercontent.com/57d5fd32c5b51e73fce9077a45f155db3edecd5dfe31d272d73569cb23ef779c/68747470733a2f2f692e696d6775722e636f6d2f6c41645a6a376d2e6a706567' card_color='#40DBB0' width='50' height='50' style='vertical-align:bottom'/>  LLM.cpp Persona
  
-Give OpenVoiceOS some sass with [LlamaCPP](https://github.com/ggerganov/llama.cpp),  [LLMcpp](https://github.com/antimatter15/alpaca.cpp) or [GPT4All](https://github.com/nomic-ai/gpt4all)
+Give OpenVoiceOS some sass with [LlamaCPP](https://github.com/ggerganov/llama.cpp),  [AlpacaCPP](https://github.com/antimatter15/alpaca.cpp) or [GPT4All](https://github.com/nomic-ai/gpt4all)
 
 This plugin requires providing the path to the executable and model, it uses subprocess which allows it to work with these programs without requiring python bindings
 
